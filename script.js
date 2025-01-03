@@ -36,6 +36,7 @@ function showTab(id) {
   document.getElementById(id).classList.remove('hidden');
   if (id === 'status-publico') updatePublicStatus();
   if (id === 'status-privado') updatePrivateConsoles();
+  menu.classList.add('hidden'); // Close the menu after selecting a tab
 }
 
 // Request Private Access
