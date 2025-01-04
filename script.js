@@ -1,99 +1,98 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const menuToggle = document.getElementById('menu-icon');
-    const menuClose = document.getElementById('close-icon');
-    const menu = document.getElementById('menu');
-    const tabs = document.querySelectorAll('.tab');
+// Mostrar/Ocultar Menú
+function toggleMenu() {
+    document.getElementById('menu').classList.toggle('hidden');
+}
 
-    const registroForm = document.getElementById('registro-form');
-    const registroMensaje = document.getElementById('registro-mensaje');
+// Cambiar Sección Visible
+function showSection(sectionId) {
+    const sections = document.querySelectorAll('main section');
+    sections.forEach(section => section.classList.add('hidden'));
 
-    const loginForm = document.getElementById('login-form');
-    const loginMensaje = document.getElementById('login-mensaje');
+    const section = document.getElementById(sectionId);
+    if (section) section.classList.remove('hidden');
 
-    const reservaForm = document.getElementById('reservation-form');
-    const mensajeReserva = document.getElementById('reservation-confirmation');
+    document.getElementById('menu').classList.add('hidden');
+}
 
-    const listaPublica = document.getElementById('public-status');
-    const listaPrivada = document.getElementById('private-consoles');
+// Sistema de Reservas
+document.getElementById('form-reserva').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const nombre = document.getElementById('nombre').value;
+    const consola = document.getElementById('consola').value;
+    const hora = document.getElementById('hora').value;
+    
+    if (nombre && consola && hora) {
+        const reserva = { nombre, consola, hora };
+        let reservas = JSON.parse(localStorage.getItem('reservas')) || [];
+        reservas.push(reserva);
+        localStorage.setItem('reservas', JSON.stringify(reservas));
+        alert('Reserva realizada');
+        showReservations();
+    }
+});
 
-    let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-    let currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
-
-    const closeMenu = () => menu.classList.add('hidden');
-    const openMenu = () => menu.classList.remove('hidden');
-
-    menuToggle.addEventListener('click', openMenu);
-    menuClose.addEventListener('click', closeMenu);
-
-    // Cambiar de pestaña
-    const showTab = (tabId) => {
-        tabs.forEach(tab => tab.classList.add('hidden'));
-        document.getElementById(tabId).classList.remove('hidden');
-        closeMenu();
-    };
-
-    // Registro de usuarios
-    registroForm?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const nombre = document.getElementById('reg-nombre').value;
-        const correo = document.getElementById('reg-correo').value;
-        const password = document.getElementById('reg-password').value;
-
-        if (usuarios.some(u => u.correo === correo)) {
-            registroMensaje.textContent = 'El usuario ya existe.';
-            return;
-        }
-
-        const nuevoUsuario = { nombre, correo, password };
-        usuarios.push(nuevoUsuario);
-        localStorage.setItem('usuarios', JSON.stringify(usuarios));
-
-        registroMensaje.textContent = 'Registro exitoso.';
-        registroMensaje.classList.remove('hidden');
-        setTimeout(() => registroMensaje.classList.add('hidden'), 3000);
+// Mostrar Reservas
+function showReservations() {
+    const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
+    const list = document.getElementById('status-privado');
+    list.innerHTML = ''; // Limpiar antes de mostrar
+    reservas.forEach(reserva => {
+        const item = document.createElement('div');
+        item.innerHTML = `${reserva.nombre} reservó ${reserva.consola} para el ${new Date(reserva.hora).toLocaleString()}`;
+        list.appendChild(item);
     });
+}
 
-    // Inicio de sesión
-    loginForm?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const correo = document.getElementById('login-correo').value;
-        const password = document.getElementById('login-password').value;
+// Verificación de Contraseña y acceso a Status Privado
+function checkPassword() {
+    const password = document.getElementById('password').value;
+    if (password === '12345') {
+        document.getElementById('panel-status').classList.remove('hidden');
+        showConsolesStatus();
+    } else {
+        alert('Contraseña incorrecta');
+    }
+}
 
-        const usuario = usuarios.find(u => u.correo === correo && u.password === password);
-        if (usuario) {
-            currentUser = usuario;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            loginMensaje.textContent = 'Login exitoso.';
-        } else {
-            loginMensaje.textContent = 'Correo o contraseña incorrectos.';
-        }
-        loginMensaje.classList.remove('hidden');
-        setTimeout(() => loginMensaje.classList.add('hidden'), 3000);
+// Cambiar Estado de Consolas
+function showConsolesStatus() {
+    const consolas = ['Xbox 1', 'Xbox 2', 'Xbox 3', 'Xbox 4', 'PlayStation 1', 'PlayStation 2', 'PlayStation 3', 'PlayStation 4', 'PC 1', 'PC 2'];
+    const container = document.getElementById('consolas-status');
+    container.innerHTML = '';
+    consolas.forEach(consola => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+            <label for="${consola}">${consola}</label>
+            <select id="${consola}" onchange="updateConsoleStatus('${consola}')">
+                <option value="Desocupada">Desocupada</option>
+                <option value="Ocupada">Ocupada</option>
+            </select>
+        `;
+        container.appendChild(div);
     });
+}
 
-    // Gestión de consolas
-    const generarListaConsolas = () => {
-        const consolas = [
-            { tipo: 'Xbox', cantidad: 4 },
-            { tipo: 'PlayStation', cantidad: 4 },
-            { tipo: 'PC', cantidad: 2 }
-        ];
+// Actualizar Estado de Consolas
+function updateConsoleStatus(consola) {
+    const status = document.getElementById(consola).value;
+    localStorage.setItem(consola, status);
+    updatePublicStatus();
+}
 
-        const crearLista = (lista, contenedor) => {
-            contenedor.innerHTML = '';
-            lista.forEach(({ tipo, cantidad }) => {
-                for (let i = 0; i < cantidad; i++) {
-                    const li = document.createElement('li');
-                    li.textContent = `${tipo} - ${i + 1}`;
-                    contenedor.appendChild(li);
-                }
-            });
-        };
+// Actualizar Estado Público
+function updatePublicStatus() {
+    const consolas = ['Xbox 1', 'Xbox 2', 'Xbox 3', 'Xbox 4', 'PlayStation 1', 'PlayStation 2', 'PlayStation 3', 'PlayStation 4', 'PC 1', 'PC 2'];
+    const container = document.getElementById('status-consolas');
+    container.innerHTML = '';
+    consolas.forEach(consola => {
+        const status = localStorage.getItem(consola) || 'Desocupada';
+        const div = document.createElement('div');
+        div.innerHTML = `${consola}: <span class="${status === 'Desocupada' ? 'green' : 'red'}">${status}</span>`;
+        container.appendChild(div);
+    });
+}
 
-        crearLista(consolas, listaPublica);
-        crearLista(consolas, listaPrivada);
-    };
-
-    // Inicializar
-    generarListaConsolas();
+document.addEventListener('DOMContentLoaded', function() {
+    showReservations();
+    updatePublicStatus();
 });
