@@ -1,69 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reserva de Consolas</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Incluye Chart.js -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva de Consolas</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <div id="menu-icon" onclick="toggleMenu()">☰</div>
-    <div id="menu" class="hidden">
-      <div id="close-icon" onclick="toggleMenu()">✖</div>
-      <ul>
-        <li onclick="showTab('inicio')">Inicio</li>
-        <li onclick="showTab('reservas')">Reservas</li>
-        <li onclick="showTab('status-publico')">Status Público</li>
-        <li onclick="requestPrivateAccess()">Status Privado</li>
-        <li onclick="showTab('estadisticas')">Estadísticas</li>
-      </ul>
-    </div>
-  </header>
 
-  <main>
-    <section id="inicio" class="tab">Bienvenido al sistema de gestión de consolas.</section>
+    <header>
+        <button id="menu-btn" class="menu-btn">☰</button>
+        <div id="menu" class="menu">
+            <a href="#inicio" class="menu-item">Inicio</a>
+            <a href="#reservas" class="menu-item">Reservas</a>
+            <a href="#status-publico" class="menu-item">Estado Público</a>
+            <a href="#status-privado" class="menu-item">Estado Privado</a>
+            <button id="close-btn" class="close-btn">x</button>
+        </div>
+    </header>
 
-    <section id="reservas" class="tab hidden">
-      <h2>Reservas</h2>
-      <form id="reservation-form">
-        <label for="name">Nombre:</label>
-        <input type="text" id="name" required>
-        <label for="console">Consola:</label>
-        <select id="console" required>
-          <option value="Xbox">Xbox</option>
-          <option value="PlayStation">PlayStation</option>
-          <option value="PC">PC</option>
-        </select>
-        <label for="time">Hora:</label>
-        <input type="time" id="time" required>
-        <button type="submit">Reservar</button>
-      </form>
-      <p id="reservation-confirmation"></p>
-    </section>
+    <main>
+        <section id="inicio">
+            <h1>Bienvenidos a la Reserva de Consolas</h1>
+            <p>Reserva tu consola favorita (Xbox, PlayStation o PC) y disfruta de tu tiempo de juego.</p>
+        </section>
 
-    <section id="status-publico" class="tab hidden">
-      <h2>Status Público</h2>
-      <ul id="public-status"></ul>
-    </section>
+        <section id="reservas">
+            <h2>Formulario de Reserva</h2>
+            <form id="reservation-form">
+                <input type="text" id="username" placeholder="Tu Nombre" required>
+                <select id="console" required>
+                    <option value="Xbox">Xbox</option>
+                    <option value="PlayStation">PlayStation</option>
+                    <option value="PC">PC</option>
+                </select>
+                <input type="datetime-local" id="reservation-time" required>
+                <button type="submit">Realizar Reserva</button>
+            </form>
+            <div id="reservation-status"></div>
+        </section>
 
-    <section id="status-privado" class="tab hidden">
-      <h2>Status Privado</h2>
-      <div id="private-consoles"></div>
-      <ul id="reservations-list"></ul>
-    </section>
+        <section id="status-publico">
+            <h2>Status Público</h2>
+            <div id="status-list"></div>
+        </section>
 
-    <section id="estadisticas" class="tab hidden">
-      <h2>Estadísticas</h2>
-      <canvas id="stats-chart" width="400" height="200"></canvas>
-    </section>
-  </main>
+        <section id="status-privado">
+            <h2>Acceso Privado</h2>
+            <form id="password-form">
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button type="submit">Acceder</button>
+            </form>
+            <div id="console-status" style="display:none;">
+                <!-- Consolas con su selector de estado -->
+                <div class="console-item">
+                    <label>Xbox 1</label>
+                    <select class="console-selector" data-console="Xbox1">
+                        <option value="Desocupada">Desocupada</option>
+                        <option value="Ocupada">Ocupada</option>
+                    </select>
+                    <div class="timer" id="timer-Xbox1"></div>
+                </div>
+                <!-- Replicar para otras consolas -->
+            </div>
+        </section>
+    </main>
 
-  <footer>
-    <p>&copy; 2025 Arcade Room. Sistema mejorado por ChatGPT.</p>
-  </footer>
+    <div id="notification" class="notification"></div>
 
-  <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
