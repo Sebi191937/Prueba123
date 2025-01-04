@@ -13,68 +13,69 @@ header {
     text-align: center;
 }
 
-nav {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-}
-
 #menu-button {
-    padding: 10px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
+    padding: 10px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 #menu-button:hover {
     background-color: #0056b3;
 }
 
-/* Menú lateral */
 #menu {
+    display: none; /* Initially hidden */
     position: fixed;
     top: 0;
     left: 0;
-    width: 250px;
+    width: 100%;
     height: 100%;
-    background-color: #333;
-    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
     padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
+    box-sizing: border-box;
 }
 
 #menu.open {
-    transform: translateX(0);
-}
-
-#close-menu {
-    background-color: transparent;
-    color: white;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
+    display: block;
 }
 
 #menu ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
 }
 
-#menu ul li {
-    margin: 20px 0;
+#menu li {
+    margin-bottom: 20px;
 }
 
-#menu ul li a {
+#menu a {
     color: white;
     text-decoration: none;
+    font-size: 20px;
 }
 
-#menu ul li a:hover {
+#menu a:hover {
     text-decoration: underline;
+}
+
+#menu-close-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+#menu-close-button:hover {
+    background-color: darkred;
 }
 
 section {
@@ -223,207 +224,4 @@ h2 {
 #detalles-reserva {
     margin-top: 10px;
     padding: 10px;
-    background-color: #e9ecef;
-    border-radius: 5px;
-}
-
-/* Detalles de Consolas */
-#detalles-consolas {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.consola {
-    flex: 1 1 200px;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.consola img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-}
-
-/* Reserva de Consolas por Horas */
-#reserva-por-horas {
-    display: none; /* Initially hidden */
-}
-
-#form-reserva-horas {
-    display: flex;
-    flex-direction: column;
-}
-
-#form-reserva-horas label {
-    margin-top: 10px;
-}
-
-#form-reserva-horas input {
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#form-reserva-horas button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#form-reserva-horas button:hover {
-    background-color: #0056b3;
-}
-
-/* Sistema de Cuotas o Pagos */
-#sistema-pagos {
-    display: none; /* Initially hidden */
-}
-
-#form-pago {
-    display: flex;
-    flex-direction: column;
-}
-
-#form-pago label {
-    margin-top: 10px;
-}
-
-#form-pago input {
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#form-pago button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#form-pago button:hover {
-    background-color: #218838;
-}
-
-/* Botón de "Ver Disponibilidad" */
-#btn-ver-disponibilidad {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#btn-ver-disponibilidad:hover {
-    background-color: #0056b3;
-}
-
-/* Filtros de Consolas */
-#filtros-consolas {
-    display: none; /* Initially hidden */
-}
-
-#form-filtros {
-    display: flex;
-    flex-direction: column;
-}
-
-#form-filtros label {
-    margin-top: 10px;
-}
-
-#form-filtros select {
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#form-filtros button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#form-filtros button:hover {
-    background-color: #0056b3;
-}
-
-/* Recibos de Reserva */
-#recibos-reserva {
-    display: none; /* Initially hidden */
-}
-
-#lista-recibos {
-    margin-top: 10px;
-}
-
-/* Descripción de la Política de Cancelación */
-#politica-cancelacion {
-    display: none; /* Initially hidden */
-}
-
-/* Campo de Notas de la Reserva */
-#campo-notas {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    resize: vertical;
-}
-
-/* Confirmación de Email para Reservas */
-#confirmacion-email {
-    display: none; /* Initially hidden */
-}
-
-/* Subida de Archivos para Reservas */
-#subida-archivos {
-    display: none; /* Initially hidden */
-}
-
-/* Autocompletar en el Formulario de Reservas */
-#autocompletar-reservas {
-    display: none; /* Initially hidden */
-}
-
-#form-autocompletar {
-    display: flex;
-    flex-direction: column;
-}
-
-#form-autocompletar label {
-    margin-top: 10px;
-}
-
-#form-autocompletar input {
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#form-autocompletar button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
+    background-color: #e9
