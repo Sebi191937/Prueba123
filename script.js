@@ -1,60 +1,50 @@
-// Manejo de pestañas
-const tabs = document.querySelectorAll('.tab');
+// Variables
+const menuBtn = document.getElementById('menu-btn');
 const menu = document.getElementById('menu');
-const publicStatus = document.getElementById('public-status');
-const privateConsoles = document.getElementById('private-consoles');
-const reservationsList = document.getElementById('reservations-list');
+const closeBtn = document.getElementById('close-btn');
+const reservationForm = document.getElementById('reservation-form');
+const reservationStatus = document.getElementById('reservation-status');
+const passwordForm = document.getElementById('password-form');
+const consoleStatus = document.getElementById('console-status');
+const statusList = document.getElementById('status-list');
+const password = 'admin123';  // Contraseña para el acceso privado
+const notification = document.getElementById('notification');
 
-// Consolas disponibles
-const consoles = {
-  Xbox: 4,
-  PlayStation: 4,
-  PC: 2,
-};
+// Mostrar/Ocultar menú
+menuBtn.addEventListener('click', () => {
+    menu.style.display = 'block';
+});
+closeBtn.addEventListener('click', () => {
+    menu.style.display = 'none';
+});
 
-// Inicializar almacenamiento local
-if (!localStorage.getItem('consoleStatus')) {
-  const initialStatus = {};
-  Object.keys(consoles).forEach(type => {
-    for (let i = 1; i <= consoles[type]; i++) {
-      initialStatus[`${type} ${i}`] = 'Desocupada';
-    }
-  });
-  localStorage.setItem('consoleStatus', JSON.stringify(initialStatus));
+// Función para mostrar notificaciones
+function showNotification(message, type = 'success') {
+    notification.textContent = message;
+    notification.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
+    notification.style.display = 'block';
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 3000);
 }
 
-if (!localStorage.getItem('reservations')) {
-  localStorage.setItem('reservations', JSON.stringify([]));
+// Función para actualizar el estado de las consolas
+function updateStatus() {
+    const consoles = ['Xbox1', 'Xbox2', 'Xbox3', 'Xbox4', 'PlayStation1', 'PlayStation2', 'PlayStation3', 'PlayStation4', 'PC1', 'PC2'];
+    statusList.innerHTML = ''; // Limpiar lista
+    consoles.forEach(console => {
+        const state = localStorage.getItem(console) || 'Desocupada';
+        const div = document.createElement('div');
+        div.innerHTML = `${console}: <span class="${state.toLowerCase()}">${state}</span>`;
+        statusList.appendChild(div);
+    });
 }
 
-// Mostrar pestañas
-function showTab(id) {
-  tabs.forEach(tab => tab.classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
-  if (id === 'estadisticas') renderStats();
-}
+// Función para manejar reservas
+reservationForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const console = document.getElementById('console').value;
+    const reservationTime = document.getElementById('reservation-time').value;
 
-// Renderizar estadísticas
-function renderStats() {
-  const ctx = document.getElementById('stats-chart').getContext('2d');
-  const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
-  const counts = reservations.reduce((acc, r) => {
-    acc[r.console] = (acc[r.console] || 0) + 1;
-    return acc;
-  }, {});
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: Object.keys(counts),
-      datasets: [{
-        label: 'Reservas por consola',
-        data: Object.values(counts),
-        backgroundColor: ['#0066ff', '#ff6600', '#00ff00'],
-      }],
-    },
-  });
-}
-
-// Inicializar
-showTab('inicio');
+    if (!username || !reservationTime) {
