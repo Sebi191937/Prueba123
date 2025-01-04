@@ -1,226 +1,100 @@
 /* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #121212;
-    color: #fff;
-    overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-header {
-    background-color: #222;
-    padding: 20px;
-    color: white;
-    text-align: center;
+.hidden {
+  display: none;
 }
 
-header h1 {
-    margin: 0;
+/* Menú lateral */
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  background-color: #333;
+  color: white;
+  height: 100%;
+  padding: 20px;
 }
 
-/* Menú */
-.menu {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #222;
-    width: 250px;
-    height: 100%;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+#menu {
+  list-style: none;
+  padding: 0;
 }
 
-.menu-item {
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-    display: block;
-    margin: 5px 0;
-    border-bottom: 1px solid #444;
+#menu a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #444;
+  transition: background-color 0.3s;
 }
 
-.menu-item:hover {
-    background-color: #444;
+#menu a:hover {
+  background-color: #666;
 }
 
-/* Estilo del contenido principal */
-main {
-    padding: 20px;
-    padding-top: 70px;
+.menu-toggle {
+  font-size: 30px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
 
-/* Sección de inicio */
-#inicio {
-    text-align: center;
+/* Contenido */
+#content {
+  margin-left: 220px;
+  padding: 20px;
 }
 
-.intro-container h2 {
-    font-size: 2.5em;
+.tab-content {
+  display: none;
 }
 
-.action-btn {
-    padding: 15px 30px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2em;
+.tab-content.active {
+  display: block;
 }
 
-.action-btn:hover {
-    background-color: #45a049;
+/* Formularios y botones */
+input, select, button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
 }
 
-/* Reservas */
-#reservas {
-    margin-top: 30px;
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
 }
 
-.reservation-form-container {
-    max-width: 600px;
-    margin: 0 auto;
+button:hover {
+  background-color: #45a049;
 }
 
-form {
-    background-color: #333;
-    padding: 20px;
-    border-radius: 8px;
+#message {
+  font-size: 18px;
+  color: green;
 }
 
-form input, form select {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #444;
-    border-radius: 5px;
-    background-color: #222;
-    color: white;
+#publicStatus {
+  font-size: 18px;
+  color: red;
 }
 
-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    border: none;
-    cursor: pointer;
-}
-
-form button:hover {
-    background-color: #45a049;
-}
-
-/* Estado Público */
-#status-publico {
-    margin-top: 30px;
-}
-
-.status-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.status-list div {
-    padding: 15px;
-    background-color: #444;
-    border-radius: 8px;
-    width: 150px;
-    text-align: center;
-}
-
-.status-list span {
-    font-weight: bold;
-}
-
-.desocupada {
-    color: green;
-}
-
-.ocupada {
-    color: red;
-}
-
-/* Historial de Reservas */
-.reservation-history {
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #333;
-    padding: 20px;
-    border-radius: 8px;
-}
-
-.reservation-history div {
-    margin-bottom: 10px;
-}
-
-/* Modal de condiciones de uso */
-.terms-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background-color: white;
-    color: black;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 400px;
-    text-align: center;
-}
-
-/* Notificación emergente */
-.notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    display: none;
-    z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-/* Botón de limpieza */
-.clear-btn {
-    padding: 10px;
-    background-color: #f44336;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.clear-btn:hover {
-    background-color: #d32f2f;
-}
-
-#available-count {
-    margin-top: 20px;
-    font-size: 1.2em;
-}
-
-/* Responsividad */
-@media screen and (max-width: 768px) {
-    .menu {
-        width: 100%;
-    }
-
-    .action-btn {
-        padding: 10px;
-        font-size: 1em;
-    }
-
-    .reservation-form-container {
-        padding: 15px;
-    }
+#adminPanel {
+  display: none;
 }
