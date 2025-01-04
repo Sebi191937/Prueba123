@@ -26,19 +26,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
     let currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
 
+    // Función para cerrar el menú
+    const closeMenu = () => {
+        menu.classList.add('hidden');
+    };
 
     menuToggle.addEventListener('click', () => {
         menu.classList.toggle('hidden');
     });
 
-    menuClose.addEventListener('click', () => {
-        menu.classList.add('hidden');
-    });
+    menuClose.addEventListener('click', closeMenu);
 
     menuItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
-            menu.classList.add('hidden');
+            closeMenu();
             sections.forEach(section => {
                 section.classList.add('hidden');
             });
