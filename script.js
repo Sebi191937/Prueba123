@@ -1,46 +1,40 @@
+// Manejo de pestañas
 const tabs = document.querySelectorAll('.tab');
 const menu = document.getElementById('menu');
 const publicStatus = document.getElementById('public-status');
 const privateConsoles = document.getElementById('private-consoles');
 const reservationsList = document.getElementById('reservations-list');
-const reservationConfirmation = document.getElementById('reservation-confirmation');
+
+// Consolas disponibles
 const consoles = {
   Xbox: 4,
   PlayStation: 4,
   PC: 2,
 };
 
-// Show/Hide Menu
-function toggleMenu() {
-  menu.classList.toggle('hidden');
+// Inicializar almacenamiento local
+if (!localStorage.getItem('consoleStatus')) {
+  const initialStatus = {};
+  Object.keys(consoles).forEach(type => {
+    for (let i = 1; i <= consoles[type]; i++) {
+      initialStatus[`${type} ${i}`] = 'Desocupada';
+    }
+  });
+  localStorage.setItem('consoleStatus', JSON.stringify(initialStatus));
 }
 
-// Show Tab
+if (!localStorage.getItem('reservations')) {
+  localStorage.setItem('reservations', JSON.stringify([]));
+}
+
+// Mostrar pestañas
 function showTab(id) {
   tabs.forEach(tab => tab.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
-  if (id === 'status-publico') updatePublicStatus();
-  if (id === 'status-privado') updatePrivateConsoles();
   if (id === 'estadisticas') renderStats();
-  menu.classList.add('hidden'); // Close the menu after selecting a tab
 }
 
-// Notification
-function showNotification(message) {
-  const notification = document.createElement('div');
-  notification.textContent = message;
-  notification.style.position = 'fixed';
-  notification.style.bottom = '10px';
-  notification.style.right = '10px';
-  notification.style.background = '#444';
-  notification.style.color = 'white';
-  notification.style.padding = '10px';
-  notification.style.borderRadius = '5px';
-  document.body.appendChild(notification);
-  setTimeout(() => notification.remove(), 3000);
-}
-
-// Estadísticas
+// Renderizar estadísticas
 function renderStats() {
   const ctx = document.getElementById('stats-chart').getContext('2d');
   const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
@@ -62,5 +56,5 @@ function renderStats() {
   });
 }
 
-// Initialize
+// Inicializar
 showTab('inicio');
