@@ -3,71 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserva de Consolas</title>
+    <title>Reserva de Consolas - Arcade Room</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico">
 </head>
 <body>
 
     <header>
-        <button id="menu-btn" class="menu-btn">☰</button>
-        <div id="menu" class="menu">
-            <a href="#inicio" class="menu-item">Inicio</a>
-            <a href="#reservas" class="menu-item">Reservas</a>
-            <a href="#status-publico" class="menu-item">Estado Público</a>
-            <a href="#status-privado" class="menu-item">Estado Privado</a>
-            <button id="close-btn" class="close-btn">x</button>
+        <div class="header-container">
+            <h1>Arcade Room - Reserva Consolas</h1>
+            <button id="menu-btn" class="menu-btn">☰</button>
         </div>
     </header>
 
+    <!-- Menú lateral -->
+    <div id="menu" class="menu">
+        <a href="#inicio" class="menu-item">Inicio</a>
+        <a href="#reservas" class="menu-item">Reservas</a>
+        <a href="#status-publico" class="menu-item">Estado Público</a>
+        <a href="#status-privado" class="menu-item">Estado Privado</a>
+        <a href="#historial" class="menu-item">Historial de Reservas</a>
+        <button id="close-btn" class="close-btn">x</button>
+    </div>
+
+    <!-- Contenido principal -->
     <main>
+        <!-- Sección de inicio -->
         <section id="inicio">
-            <h1>Bienvenidos a la Reserva de Consolas</h1>
-            <p>Reserva tu consola favorita (Xbox, PlayStation o PC) y disfruta de tu tiempo de juego.</p>
+            <div class="intro-container">
+                <h2>Bienvenidos a Arcade Room</h2>
+                <p>Reserva tu consola favorita (Xbox, PlayStation o PC) y disfruta de tu tiempo de juego en el mejor ambiente de juegos.</p>
+                <button id="go-to-reservas" class="action-btn">Ir a Reservas</button>
+            </div>
         </section>
 
+        <!-- Sección de reservas -->
         <section id="reservas">
-            <h2>Formulario de Reserva</h2>
-            <form id="reservation-form">
-                <input type="text" id="username" placeholder="Tu Nombre" required>
-                <select id="console" required>
-                    <option value="Xbox">Xbox</option>
-                    <option value="PlayStation">PlayStation</option>
-                    <option value="PC">PC</option>
-                </select>
-                <input type="datetime-local" id="reservation-time" required>
-                <button type="submit">Realizar Reserva</button>
-            </form>
-            <div id="reservation-status"></div>
+            <div class="reservation-form-container">
+                <h2>Formulario de Reserva</h2>
+                <form id="reservation-form">
+                    <label for="username">Tu Nombre</label>
+                    <input type="text" id="username" placeholder="Tu Nombre" required>
+                    <label for="console">Selecciona la Consola</label>
+                    <select id="console" required>
+                        <option value="Xbox">Xbox</option>
+                        <option value="PlayStation">PlayStation</option>
+                        <option value="PC">PC</option>
+                    </select>
+                    <label for="reservation-time">Fecha y Hora de Reserva</label>
+                    <input type="datetime-local" id="reservation-time" required>
+                    <button type="submit">Realizar Reserva</button>
+                </form>
+                <div id="reservation-status"></div>
+                <button id="clear-reservations" class="clear-btn">Limpiar Reservas</button>
+            </div>
         </section>
 
+        <!-- Sección de estado público -->
         <section id="status-publico">
-            <h2>Status Público</h2>
-            <div id="status-list"></div>
+            <h2>Estado Público</h2>
+            <div id="status-list" class="status-list"></div>
+            <div id="available-count">
+                <p>Consolas disponibles: <span id="available-count-number">0</span></p>
+            </div>
         </section>
 
+        <!-- Sección de estado privado -->
         <section id="status-privado">
             <h2>Acceso Privado</h2>
             <form id="password-form">
                 <input type="password" id="password" placeholder="Contraseña" required>
                 <button type="submit">Acceder</button>
             </form>
-            <div id="console-status" style="display:none;">
-                <!-- Consolas con su selector de estado -->
+            <div id="console-status" class="console-status" style="display:none;">
+                <!-- Consolas administrables -->
                 <div class="console-item">
                     <label>Xbox 1</label>
                     <select class="console-selector" data-console="Xbox1">
                         <option value="Desocupada">Desocupada</option>
                         <option value="Ocupada">Ocupada</option>
                     </select>
-                    <div class="timer" id="timer-Xbox1"></div>
                 </div>
-                <!-- Replicar para otras consolas -->
+                <div class="console-item">
+                    <label>PlayStation 1</label>
+                    <select class="console-selector" data-console="PlayStation1">
+                        <option value="Desocupada">Desocupada</option>
+                        <option value="Ocupada">Ocupada</option>
+                    </select>
+                </div>
+                <!-- Más consolas... -->
             </div>
         </section>
+
+        <!-- Historial de reservas -->
+        <section id="historial">
+            <h2>Historial de Reservas</h2>
+            <div id="reservation-history" class="reservation-history">
+                <!-- Aquí aparecerán las reservas antiguas -->
+            </div>
+        </section>
+
     </main>
 
+    <!-- Condiciones de uso (Modal) -->
+    <div id="terms-modal" class="terms-modal">
+        <div class="modal-content">
+            <h2>Condiciones de Uso</h2>
+            <p>Para realizar una reserva en nuestro Arcade Room, debes aceptar nuestras condiciones de uso. Acepta y disfruta de tu tiempo de juego.</p>
+            <button id="accept-terms">Aceptar</button>
+            <button id="decline-terms">Rechazar</button>
+        </div>
+    </div>
+
+    <!-- Notificación emergente -->
     <div id="notification" class="notification"></div>
 
+    <!-- Scripts -->
     <script src="app.js"></script>
 </body>
 </html>
