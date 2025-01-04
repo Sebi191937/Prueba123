@@ -3,122 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserva de Consolas - Arcade Room</title>
+    <title>Sistema de Reserva de Consolas</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.ico">
+    <script defer src="scripts.js"></script>
 </head>
 <body>
-
     <header>
-        <div class="header-container">
-            <h1>Arcade Room - Reserva Consolas</h1>
-            <button id="menu-btn" class="menu-btn">☰</button>
-        </div>
+        <h1>Sistema de Reserva de Consolas</h1>
     </header>
 
-    <!-- Menú lateral -->
-    <div id="menu" class="menu">
-        <a href="#inicio" class="menu-item">Inicio</a>
-        <a href="#reservas" class="menu-item">Reservas</a>
-        <a href="#status-publico" class="menu-item">Estado Público</a>
-        <a href="#status-privado" class="menu-item">Estado Privado</a>
-        <a href="#historial" class="menu-item">Historial de Reservas</a>
-        <button id="close-btn" class="close-btn">x</button>
-    </div>
+    <!-- Formulario de Registro de Usuario -->
+    <section id="registro-usuario">
+        <h2>Registro de Usuario</h2>
+        <form id="form-registro">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
 
-    <!-- Contenido principal -->
-    <main>
-        <!-- Sección de inicio -->
-        <section id="inicio">
-            <div class="intro-container">
-                <h2>Bienvenidos a Arcade Room</h2>
-                <p>Reserva tu consola favorita (Xbox, PlayStation o PC) y disfruta de tu tiempo de juego en el mejor ambiente de juegos.</p>
-                <button id="go-to-reservas" class="action-btn">Ir a Reservas</button>
-            </div>
-        </section>
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
 
-        <!-- Sección de reservas -->
-        <section id="reservas">
-            <div class="reservation-form-container">
-                <h2>Formulario de Reserva</h2>
-                <form id="reservation-form">
-                    <label for="username">Tu Nombre</label>
-                    <input type="text" id="username" placeholder="Tu Nombre" required>
-                    <label for="console">Selecciona la Consola</label>
-                    <select id="console" required>
-                        <option value="Xbox">Xbox</option>
-                        <option value="PlayStation">PlayStation</option>
-                        <option value="PC">PC</option>
-                    </select>
-                    <label for="reservation-time">Fecha y Hora de Reserva</label>
-                    <input type="datetime-local" id="reservation-time" required>
-                    <button type="submit">Realizar Reserva</button>
-                </form>
-                <div id="reservation-status"></div>
-                <button id="clear-reservations" class="clear-btn">Limpiar Reservas</button>
-            </div>
-        </section>
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
 
-        <!-- Sección de estado público -->
-        <section id="status-publico">
-            <h2>Estado Público</h2>
-            <div id="status-list" class="status-list"></div>
-            <div id="available-count">
-                <p>Consolas disponibles: <span id="available-count-number">0</span></p>
-            </div>
-        </section>
+            <label for="confirm-password">Confirmar Contraseña:</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
 
-        <!-- Sección de estado privado -->
-        <section id="status-privado">
-            <h2>Acceso Privado</h2>
-            <form id="password-form">
-                <input type="password" id="password" placeholder="Contraseña" required>
-                <button type="submit">Acceder</button>
-            </form>
-            <div id="console-status" class="console-status" style="display:none;">
-                <!-- Consolas administrables -->
-                <div class="console-item">
-                    <label>Xbox 1</label>
-                    <select class="console-selector" data-console="Xbox1">
-                        <option value="Desocupada">Desocupada</option>
-                        <option value="Ocupada">Ocupada</option>
-                    </select>
-                </div>
-                <div class="console-item">
-                    <label>PlayStation 1</label>
-                    <select class="console-selector" data-console="PlayStation1">
-                        <option value="Desocupada">Desocupada</option>
-                        <option value="Ocupada">Ocupada</option>
-                    </select>
-                </div>
-                <!-- Más consolas... -->
-            </div>
-        </section>
+            <button type="submit">Registrar</button>
+        </form>
+    </section>
 
-        <!-- Historial de reservas -->
-        <section id="historial">
-            <h2>Historial de Reservas</h2>
-            <div id="reservation-history" class="reservation-history">
-                <!-- Aquí aparecerán las reservas antiguas -->
-            </div>
-        </section>
+    <!-- Notificación de Estado de Consola -->
+    <section id="notificacion-estado" class="hidden">
+        <p id="mensaje-notificacion"></p>
+    </section>
 
-    </main>
-
-    <!-- Condiciones de uso (Modal) -->
-    <div id="terms-modal" class="terms-modal">
-        <div class="modal-content">
-            <h2>Condiciones de Uso</h2>
-            <p>Para realizar una reserva en nuestro Arcade Room, debes aceptar nuestras condiciones de uso. Acepta y disfruta de tu tiempo de juego.</p>
-            <button id="accept-terms">Aceptar</button>
-            <button id="decline-terms">Rechazar</button>
+    <!-- Barra de Progreso de Reserva -->
+    <section id="progreso-reserva">
+        <h2>Reserva en Proceso</h2>
+        <div id="barra-progreso">
+            <div id="progreso"></div>
         </div>
-    </div>
+    </section>
 
-    <!-- Notificación emergente -->
-    <div id="notification" class="notification"></div>
+    <!-- Interfaz de Usuario para Administradores -->
+    <section id="admin-interface">
+        <h2>Interfaz de Administradores</h2>
+        <!-- Aquí se añadirán las funcionalidades para administradores -->
+    </section>
 
-    <!-- Scripts -->
-    <script src="app.js"></script>
+    <!-- Historial de Estado de Consolas -->
+    <section id="historial-estado">
+        <h2>Historial de Estado de Consolas</h2>
+        <table id="tabla-historial">
+            <thead>
+                <tr>
+                    <th>Consola</th>
+                    <th>Estado Anterior</th>
+                    <th>Nuevo Estado</th>
+                    <th>Fecha y Hora</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se llenará el historial con datos -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Interfaz de Actualización de Estado de Consolas -->
+    <section id="actualizacion-estado">
+        <h2>Actualizar Estado de Consolas</h2>
+        <!-- Aquí se añadirán los botones/dropdowns para cambiar el estado de las consolas -->
+    </section>
+
+    <!-- Calendario de Disponibilidad -->
+    <section id="calendario-disponibilidad">
+        <h2>Calendario de Disponibilidad</h2>
+        <div id="calendario">
+            <!-- Aquí se incluirá el calendario -->
+        </div>
+    </section>
+
+    <!-- Aviso de Mantenimiento -->
+    <section id="aviso-mantenimiento" class="hidden">
+        <p id="mensaje-mantenimiento"></p>
+        <button id="notificar-admin">Notificar a Administradores</button>
+    </section>
+
+    <!-- Multilingüe -->
+    <section id="multilingue">
+        <h2>Idioma</h2>
+        <select id="selector-idioma">
+            <option value="es">Español</option>
+            <option value="en">Inglés</option>
+        </select>
+    </section>
+
+    <!-- Resumen de Reserva -->
+    <section id="resumen-reserva" class="hidden">
+        <h2>Resumen de Reserva</h2>
+        <p id="detalles-reserva"></p>
+    </section>
+
+    <!-- Detalles de Consolas -->
+    <section id="detalles-consolas">
+        <h2>Detalles de Consolas</h2>
+        <div id="consolas">
+            <!-- Aquí se mostrarán los detalles adicionales de las consolas -->
+            <div class="consola" data-id="1">
+                <h3>Consola 1</h3>
+                <p>Especificaciones: ...</p>
+                <img src="url_de_la_imagen" alt="Consola 1">
+            </div>
+            <div class="consola" data-id="2">
+                <h3>Consola 2</h3>
+                <p>Especificaciones: ...</p>
+                <img src="url_de_la_imagen" alt="Consola 2">
+            </div>
+            <!-- Añadir más consolas según sea necesario -->
+        </div>
+    </section>
+
+    <!-- Reserva de Consolas por Horas -->
+    <section id="reserva-por-horas">
+        <h2>Reserva de Consolas por Horas</h2>
+        <form id="form-reserva-horas">
+            <label for="hora-inicio">Hora de Inicio:</label>
+            <input type="time" id="hora-inicio" name="hora-inicio" required>
+
+            <label for="hora-fin">Hora de Fin:</label>
+            <input type="time" id="hora-fin" name="hora-fin" required>
+
+            <button type="submit">Reservar</button>
+        </form>
+    </section>
+
+    <!-- Sistema de Cuotas o Pagos -->
+    <section id="sistema-pagos">
+        <h2>Pago de Reservas</h2>
+        <form id="form-pago">
+            <label for="numero-tarjeta">Número de Tarjeta:</label>
+            <input type="text" id="numero-tarjeta" name="numero-tarjeta" required>
+
+            <label for="fecha-expiracion">Fecha de Expiración:</label>
+            <input type="text" id="fecha-expiracion" name="fecha-expiracion" required>
+
+            <label for="codigo-seguridad">Código de Seguridad:</label>
+            <input type="text" id="codigo-seguridad" name="codigo-seguridad" required>
+
+            <button type="submit">Pagar</button>
+        </form>
+    </section>
+
+    <!-- Botón de "Ver Disponibilidad" -->
+    <section id="ver-disponibilidad">
+        <button id="btn-ver-disponibilidad">Ver Disponibilidad</button>
+    </section>
+
+    <!-- Filtros de Consolas -->
+    <section id="filtros-consolas">
+        <h2>Filtros de Consolas</h2>
+        <form id="form-filtros">
+            <label for="filtro-tipo">Tipo:</label>
+            <select id="filtro-tipo" name="filtro-tipo">
+                <option value="todos">Todos</option>
+                <option value="ps5">PS5</option>
+                <option value="xbox">Xbox</option>
+                <option value="switch">Switch</option>
+            </select>
+
+            <label for="filtro-estado">Estado:</label>
+            <select id="filtro-estado" name="filtro-estado">
+                <option value="todos">Todos</option>
+                <option value="disponible">Disponible</option>
+                <option value="ocupado">Ocupado</option>
+            </select>
+
+            <button type="submit">Filtrar</button>
+        </form>
+    </section>
+
+    <!-- Recibos de Reserva -->
+    <section id="recibos-reserva">
+        <h2>Recibos de Reserva</h2>
+        <div id="lista-recibos">
+            <!-- Aquí se mostrarán los recibos automáticos -->
+        </div>
+    </section>
+
+    <!-- Descripción de la Política de Cancelación -->
+    <section id="politica-cancelacion">
+        <h2>Política de Cancelación</h2>
+        <p>
+            Nuestra política de cancelación permite a los usuarios cancelar su reserva hasta 24 horas antes del inicio del tiempo reservado. Si cancela dentro de las 24 horas, se aplicará una tarifa de cancelación.
+        </p>
+    </section>
+
+    <!-- Campo de Notas de la Reserva -->
+    <section id="notas-reserva">
+        <h2>Notas de la Reserva</h2>
+        <textarea id="campo-notas" rows="4" cols="50" placeholder="Escriba sus notas aquí..."></textarea>
+    </section>
+
+    <!-- Confirmación de Email para Reservas -->
+    <section id="confirmacion-email">
+        <h2>Confirmación de Email</h2>
+        <p>Se enviará una confirmación a su correo electrónico después de completar la reserva.</p>
+    </section>
+
+    <!-- Subida de Archivos para Reservas -->
+    <section id="subida-archivos">
+        <h2>Subida de Archivos</h2>
+        <input type="file" id="archivo-identificacion" name="archivo-identificacion">
+    </section>
+
+    <!-- Autocompletar en el Formulario de Reservas -->
+    <section id="autocompletar-reservas">
+        <h2>Autocompletar en el Formulario de Reservas</h2>
+        <form id="form-autocompletar">
+            <label for="nombre-usuario">Nombre de Usuario:</label>
+            <input type="text" id="nombre-usuario" name="nombre-usuario" list="usuarios">
+
+            <label for="nombre-consola">Nombre de Consola:</label>
+            <input type="text" id="nombre-consola" name="nombre-consola" list="consolas">
+
+            <datalist id="usuarios">
+                <option value="Usuario 1">
+                <option value="Usuario 2">
+                <option value="Usuario 3">
+                <!-- Añadir más usuarios según sea necesario -->
+            </datalist>
+
+            <datalist id="consolas">
+                <option value="Consola 1">
+                <option value="Consola 2">
+                <option value="Consola 3">
+                <!-- Añadir más consolas según sea necesario -->
+            </datalist>
+
+            <button type="submit">Reservar</button>
+        </form>
+    </section>
+
+    <!-- Contador de Tiempo Restante para Reservas -->
+    <section id="contador-tiempo-reservas">
+        <h2>Contador de Tiempo Restante para Reservas</h2>
+        <div id="contador">
+            <!-- Aquí se mostrará el contador de tiempo restante -->
+        </div>
+    </section>
+
+    <!-- Manejo de Eventos de Usuario -->
+    <section id="manejo-eventos">
+        <h2>Manejo de Eventos de Usuario</h2>
+        <!-- Aquí se añadirán los elementos para manejar eventos de usuario -->
+    </section>
+
+    <!-- Redirección de Usuarios No Autenticados -->
+    <section id="redireccion-no-autenticados">
+        <h2>Redirección de Usuarios No Autenticados</h2>
+        <!-- Aquí se añadirá la lógica para redirigir usuarios no autenticados -->
+    </section>
+
+    <!-- Filtrar Reservas por Fecha o Consola -->
+    <section id="filtrar-reservas">
+        <h2>Filtrar Reservas por Fecha o Consola</h2>
+        <form id="form-filtrar-reservas">
+            <label for="filtro-fecha">Fecha:</label>
+            <input type="date" id="filtro-fecha" name="filtro-fecha">
+
+            <label for="filtro-consola">Consola:</label>
+            <input type="text" id="filtro-consola" name="filtro-consola">
+
+            <button type="submit">Filtrar</button>
+        </form>
+    </section>
+
+    <!-- Confirmación Visual al Cambiar el Estado de Consolas -->
+    <section id="confirmacion-visual-estado">
+        <h2>Confirmación Visual al Cambiar el Estado de Consolas</h2>
+        <!-- Aquí se añadirá la lógica para mostrar confirmación visual -->
+    </section>
 </body>
-</html>
+                    </html>
