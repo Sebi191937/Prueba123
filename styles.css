@@ -1,69 +1,151 @@
+/* Reset de estilos predeterminados */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Cuerpo de la página */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #1a1a1a;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(45deg, #2e3d4e, #1a1a1a);
     color: white;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
+    background: #111;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #333;
-    padding: 10px;
-    text-align: right;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-button {
+#menu-btn {
     background-color: #444;
     color: white;
+    font-size: 25px;
     border: none;
-    padding: 10px;
     cursor: pointer;
-    font-size: 20px;
+    padding: 10px;
 }
 
-button:hover {
-    background-color: #666;
+#menu-btn:hover {
+    background-color: #888;
 }
 
+/* Menú Lateral */
 nav {
     display: none;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    background-color: #333;
     position: fixed;
     top: 0;
     left: 0;
+    background-color: #222;
     width: 250px;
     height: 100%;
     box-shadow: 3px 0 5px rgba(0, 0, 0, 0.5);
 }
 
+nav ul {
+    list-style: none;
+    padding: 20px;
+}
+
 nav ul li {
-    padding: 15px;
+    margin: 20px 0;
     text-align: center;
 }
 
 nav ul li a {
     color: white;
     text-decoration: none;
+    font-size: 20px;
+    padding: 10px;
     display: block;
+    transition: background-color 0.3s ease;
 }
 
-.hidden {
+nav ul li a:hover {
+    background-color: #444;
+}
+
+button.close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* Secciones */
+main {
+    margin-top: 60px;
+    padding: 20px;
+    flex: 1;
+}
+
+section {
     display: none;
 }
 
-#status-consolas div {
-    margin-bottom: 10px;
+section h1, section h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
+#status-consolas div, #consolas-status div {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+button {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #666;
+}
+
+/* Estilo para formularios */
+form input, form select, form button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+form select {
+    background-color: #333;
+    color: white;
+}
+
+form input[type="datetime-local"] {
+    background-color: #333;
+    color: white;
+}
+
+/* Estados de Consolas */
 .green {
     color: #4CAF50;
 }
@@ -72,24 +154,32 @@ nav ul li a {
     color: #F44336;
 }
 
-form input, form select, form button {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 10px;
+/* Animación de transición */
+.hidden {
+    display: none;
 }
 
-form input[type="datetime-local"] {
-    font-size: 16px;
+/* Estilo para botones de navegación */
+nav ul li a, button {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
 }
 
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
+/* Responsividad */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #menu-btn {
+        font-size: 30px;
+    }
+
+    nav {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
