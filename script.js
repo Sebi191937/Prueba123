@@ -1,74 +1,60 @@
-// Variables
-const form = document.getElementById("reservation-form");
-const statusPublico = document.getElementById("status-publico");
-const reservationStatus = document.getElementById("reservation-status");
-const notification = document.getElementById("notification");
-const menuBtn = document.getElementById("menu-btn");
-const closeBtn = document.getElementById("close-btn");
-const menu = document.getElementById("menu");
-const availableCount = document.getElementById("available-count-number");
-let reservations = [];
+// Función para mostrar y ocultar el menú lateral
+function toggleMenu() {
+  const menu = document.getElementById('menu');
+  menu.classList.toggle('hidden');
+}
 
-// Datos de consola (simulado)
-let consoles = {
-    "Xbox": 4,
-    "PlayStation": 4,
-    "PC": 4
-};
+// Función para cambiar entre las pestañas
+function openTab(tabId) {
+  const tabs = document.querySelectorAll('.tab-content');
+  tabs.forEach(tab => {
+    tab.classList.remove('active');
+  });
+  document.getElementById(tabId).classList.add('active');
+}
 
-// Función para actualizar el contador de consolas disponibles
-function updateAvailableCount() {
-    let totalAvailable = 0;
-    for (let consoleType in consoles) {
-        if (consoles[consoleType] > 0) {
-            totalAvailable++;
-        }
-    }
-    availableCount.textContent = totalAvailable;
+// Función para verificar la contraseña para el panel privado
+function verifyPassword() {
+  const password = document.getElementById('password').value;
+  const adminPanel = document.getElementById('adminPanel');
+  const correctPassword = 'admin123'; // Contraseña para el panel admin
+
+  if (password === correctPassword) {
+    adminPanel.classList.remove('hidden');
+    document.getElementById('password').disabled = true;
+  } else {
+    alert('Contraseña incorrecta');
+  }
+}
+
+// Función para actualizar el estado de las consolas
+function updateConsoleStatus() {
+  const xboxStatus = document.getElementById('xboxStatus').value;
+  const statusPublico = document.getElementById('publicStatus');
+
+  if (xboxStatus === 'ocupada') {
+    statusPublico.textContent = 'Xbox está ocupada';
+    statusPublico.style.color = 'red';
+  } else {
+    statusPublico.textContent = 'Xbox está desocupada';
+    statusPublico.style.color = 'green';
+  }
 }
 
 // Función para manejar la reserva
-form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    let username = document.getElementById("username").value;
-    let console = document.getElementById("console").value;
-    let reservationTime = document.getElementById("reservation-time").value;
+document.getElementById('reservationForm').addEventListener('submit', function(e) {
+  e.preventDefault();
 
-    // Verificar disponibilidad
-    if (consoles[console] > 0) {
-        consoles[console]--;
-        reservations.push({ username, console, reservationTime });
-        updateAvailableCount();
-        reservationStatus.innerHTML = `Reserva exitosa para ${username} en ${console} a las ${reservationTime}`;
-        showNotification(`Reserva realizada exitosamente para ${username}`);
-    } else {
-        reservationStatus.innerHTML = `No hay consolas disponibles de ${console}.`;
-    }
+  const name = document.getElementById('name').value;
+  const console = document.getElementById('console').value;
+  const date = document.getElementById('date').value;
+  const message = document.getElementById('message');
+
+  if (!name || !console || !date) {
+    message.textContent = 'Por favor, llena todos los campos.';
+    message.style.color = 'red';
+  } else {
+    message.textContent = `Reserva realizada para ${name} en ${console} a las ${date}.`;
+    message.style.color = 'green';
+  }
 });
-
-// Función para mostrar notificaciones
-function showNotification(message) {
-    notification.innerHTML = message;
-    notification.style.display = "block";
-    setTimeout(() => {
-        notification.style.display = "none";
-    }, 3000);
-}
-
-// Función para abrir/cerrar el menú
-menuBtn.addEventListener("click", function () {
-    menu.style.display = "block";
-});
-
-closeBtn.addEventListener("click", function () {
-    menu.style.display = "none";
-});
-
-// Función para limpiar reservas
-document.getElementById("clear-reservations").addEventListener("click", function () {
-    reservations = [];
-    reservationStatus.innerHTML = "Todas las reservas han sido eliminadas.";
-});
-
-// Actualizar el contador inicial
-updateAvailableCount();
