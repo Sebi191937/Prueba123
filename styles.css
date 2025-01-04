@@ -1,23 +1,23 @@
-/* styles.css */
+/* General */
 body {
     font-family: Arial, sans-serif;
-    background-color: #121212;
-    color: #fff;
     margin: 0;
     padding: 0;
+    background-color: #121212;
+    color: white;
 }
 
+/* Header */
 header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #1f1f1f;
-    padding: 10px;
-    text-align: right;
+    padding: 10px 20px;
 }
 
-#menu-toggle, #menu-close {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 24px;
+#menu-icon, #close-icon {
+    font-size: 1.5rem;
     cursor: pointer;
 }
 
@@ -25,61 +25,70 @@ header {
     position: absolute;
     top: 0;
     right: 0;
-    background-color: #1f1f1f;
-    width: 200px;
+    width: 250px;
     height: 100%;
+    background: #1f1f1f;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    padding: 10px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
 }
 
-.hidden {
-    display: none;
+#menu.hidden {
+    transform: translateX(100%);
 }
 
-.menu-item {
-    color: #fff;
-    text-decoration: none;
-    margin: 10px 0;
+#menu ul {
+    list-style: none;
+    padding: 0;
 }
 
+#menu li {
+    margin: 15px 0;
+    font-size: 1.2rem;
+}
+
+/* Main Content */
 main {
     padding: 20px;
 }
 
-input, select, button {
+.tab {
+    display: none;
+}
+
+.tab:not(.hidden) {
     display: block;
-    margin: 10px 0;
-    padding: 10px;
+}
+
+/* Inputs and Buttons */
+input, select, button {
     width: 100%;
-    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 button {
-    background-color: #1f1f1f;
-    color: #fff;
-    border: 1px solid #fff;
+    background-color: #333;
+    color: white;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #fff;
-    color: #1f1f1f;
+    background-color: #555;
 }
 
-#mensaje-reserva, #registro-mensaje, #login-mensaje, #privado-login-mensaje {
-    color: #0f0;
-}
+/* Responsiveness */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+    }
 
-#lista-publica li, #lista-privada li {
-    margin: 5px 0;
-}
-
-.estado {
-    color: #0f0;
-}
-
-.estado.ocupada {
-    color: #f00;
+    #menu {
+        width: 100%;
+    }
 }
