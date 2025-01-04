@@ -82,6 +82,7 @@ h2 {
     height: 20px;
     width: 0; /* Initial width of the progress bar */
     background-color: #007bff;
+    transition: width 0.3s;
 }
 
 /* Interfaz de Usuario para Administradores */
@@ -164,7 +165,23 @@ h2 {
 
 /* Detalles de Consolas */
 #detalles-consolas {
-    display: none; /* Initially hidden */
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.consola {
+    flex: 1 1 200px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.consola img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
 }
 
 /* Reserva de Consolas por Horas */
@@ -172,9 +189,69 @@ h2 {
     display: none; /* Initially hidden */
 }
 
+#form-reserva-horas {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-reserva-horas label {
+    margin-top: 10px;
+}
+
+#form-reserva-horas input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#form-reserva-horas button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#form-reserva-horas button:hover {
+    background-color: #0056b3;
+}
+
 /* Sistema de Cuotas o Pagos */
 #sistema-pagos {
     display: none; /* Initially hidden */
+}
+
+#form-pago {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-pago label {
+    margin-top: 10px;
+}
+
+#form-pago input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#form-pago button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#form-pago button:hover {
+    background-color: #218838;
 }
 
 /* Botón de "Ver Disponibilidad" */
@@ -196,9 +273,43 @@ h2 {
     display: none; /* Initially hidden */
 }
 
+#form-filtros {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-filtros label {
+    margin-top: 10px;
+}
+
+#form-filtros select {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#form-filtros button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#form-filtros button:hover {
+    background-color: #0056b3;
+}
+
 /* Recibos de Reserva */
 #recibos-reserva {
     display: none; /* Initially hidden */
+}
+
+#lista-recibos {
+    margin-top: 10px;
 }
 
 /* Descripción de la Política de Cancelación */
@@ -225,199 +336,99 @@ h2 {
     display: none; /* Initially hidden */
 }
 
-/* Transiciones de Fondo Dinámicas */
-body, section {
-    transition: background-color 0.3s ease;
+/* Autocompletar en el Formulario de Reservas */
+#autocompletar-reservas {
+    display: none; /* Initially hidden */
 }
 
-/* Animaciones al Cambiar de Estado */
-button:hover, input:focus {
-    transform: scale(1.05);
-    transition: transform 0.2s ease;
+#form-autocompletar {
+    display: flex;
+    flex-direction: column;
 }
 
-/* Sombras y Efectos de Luz */
-button, input {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.2s ease;
+#form-autocompletar label {
+    margin-top: 10px;
 }
 
-button:hover, input:focus {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* Diseño de Encabezados de Página */
-header h1 {
-    font-family: 'Arial Black', sans-serif;
-    color: #ff6b6b;
-}
-
-/* Animación de Barra de Progreso */
-#progreso {
-    transition: width 0.5s ease;
-}
-
-/* Estilo de Ventanas Emergentes */
-#notificacion-estado {
-    border: 2px solid #ffc107;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: opacity 0.3s ease;
-}
-
-.hidden {
-    opacity: 0;
-}
-
-/* Estilo de los Botones de Confirmación y Cancelación */
-button {
-    font-size: 16px;
-    border-radius: 5px;
-}
-
-button#btn-confirmar-reserva {
-    background-color: #28a745;
-}
-
-button#btn-cancelar-reserva {
-    background-color: #dc3545;
-}
-
-/* Animación de Cierre de Menú */
-#menu {
-    transition: transform 0.3s ease;
-}
-
-#menu.cerrado {
-    transform: translateX(-100%);
-}
-
-/* Despliegue de Consolas */
-#consolas {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
-}
-
-/* Indicadores de Estado de Consolas */
-.estado-disponible {
-    color: #28a745;
-}
-
-.estado-ocupado {
-    color: #dc3545;
-}
-
-.estado-mantenimiento {
-    color: #ffc107;
-}
-
-/* Transiciones para las Reservas */
-.reserva {
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.reserva.nueva {
-    opacity: 0;
-    transform: translateY(-20px);
-}
-
-.reserva.aparecer {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Vista de Modo Oscuro */
-body.dark-mode {
-    background-color: #121212;
-    color: #ffffff;
-}
-
-body.dark-mode section {
-    background-color: #1e1e1e;
-    color: #ffffff;
-}
-
-body.dark-mode header {
-    background-color: #1e1e1e;
-}
-
-body.dark-mode input, body.dark-mode button {
-    background-color: #333333;
-    color: #ffffff;
-    border: 1px solid #444444;
-}
-
-body.dark-mode h1 {
-    color: #ff6b6b;
-}
-
-/* Scroll Suave */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Estilos de Campos de Formulario */
-input, select, textarea {
+#form-autocompletar input {
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-/* Estilo de Estado de Consolas al Cambiar */
-.consola-estado-cambiar {
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.consola-estado-cambiar:hover {
-    background-color: #e9ecef;
-    transform: scale(1.05);
-}
-
-/* Encabezado Pegajoso */
-header.sticky {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-}
-
-/* Barra de Navegación Fija */
-#navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background-color: #333;
-    color: white;
+#form-autocompletar button {
+    margin-top: 20px;
     padding: 10px;
-    z-index: 1000;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-/* Diseño de Tipografía con Estilo */
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Arial Black', sans-serif;
+#form-autocompletar button:hover {
+    background-color: #0056b3;
 }
 
-p, a, span, div {
-    font-family: Arial, sans-serif;
+/* Contador de Tiempo Restante para Reservas */
+#contador-tiempo-reservas {
+    display: none; /* Initially hidden */
 }
 
-/* Interacción Visual con los Botones */
-button:hover, input:focus {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+#contador {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
 }
 
-/* Rediseño de la Página de Error */
-#error-page {
-    text-align: center;
-    padding: 50px;
+/* Manejo de Eventos de Usuario */
+#manejo-eventos {
+    display: none; /* Initially hidden */
 }
 
-#error-page h1 {
-    font-size: 72px;
-    color: #ff6b6b;
+/* Redirección de Usuarios No Autenticados */
+#redireccion-no-autenticados {
+    display: none; /* Initially hidden */
 }
 
-#error-page p {
-    font-size: 24px;
+/* Filtrar Reservas por Fecha o Consola */
+#filtrar-reservas {
+    display: none; /* Initially hidden */
+}
+
+#form-filtrar-reservas {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-filtrar-reservas label {
+    margin-top: 10px;
+}
+
+#form-filtrar-reservas input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#form-filtrar-reservas button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#form-filtrar-reservas button:hover {
+    background-color: #0056b3;
+}
+
+/* Confirmación Visual al Cambiar el Estado de Consolas */
+#confirmacion-visual-estado {
+    display: none; /* Initially hidden */
 }
