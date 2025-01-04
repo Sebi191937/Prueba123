@@ -16,6 +16,7 @@
         <li onclick="showTab('reservas')">Reservas</li>
         <li onclick="showTab('status-publico')">Status Público</li>
         <li onclick="requestPrivateAccess()">Status Privado</li>
+        <li onclick="showTab('estadisticas')">Estadísticas</li>
       </ul>
     </div>
   </header>
@@ -51,7 +52,16 @@
       <div id="private-consoles"></div>
       <ul id="reservations-list"></ul>
     </section>
+
+    <section id="estadisticas" class="tab hidden">
+      <h2>Estadísticas</h2>
+      <canvas id="stats-chart"></canvas>
+    </section>
   </main>
+
+  <footer>
+    <p>&copy; 2025 Arcade Room. Todos los derechos reservados.</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
