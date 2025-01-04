@@ -105,10 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
         progreso.style.width = `${porcentaje}%`;
     }
 
-    // Ejemplo de uso
-    // mostrarNotificacion('La consola ha cambiado a estado Ocupada');
-    // actualizarProgreso(50);
-
     // Sistema de Confirmación de Reserva
     const btnConfirmarReserva = document.getElementById('btn-confirmar-reserva');
     if (btnConfirmarReserva) {
@@ -301,4 +297,43 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         alert(previsualizacion);
     }
+
+    // Manejo del Menú y Navegación
+    const menuButton = document.getElementById('menu-button');
+    const menu = document.getElementById('menu');
+    const menuCloseButton = document.getElementById('menu-close-button');
+    const menuLinks = menu.querySelectorAll('a');
+
+    menuButton.addEventListener('click', function() {
+        menu.classList.toggle('open');
+    });
+
+    menuCloseButton.addEventListener('click', function() {
+        menu.classList.remove('open');
+    });
+
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            menu.classList.remove('open');
+            const sectionId = this.getAttribute('href').substring(1);
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // Mostrar y Ocultar Secciones
+    function mostrarSeccion(seccionId) {
+        document.querySelectorAll('section').forEach(seccion => {
+            seccion.style.display = 'none';
+        });
+        const seccionMostrar = document.getElementById(seccionId);
+        if (seccionMostrar) {
+            seccionMostrar.style.display = 'block';
+        }
+    }
+
+    // Inicializar mostrando la sección de registro de usuario
+    mostrarSeccion('registro-usuario');
 });
