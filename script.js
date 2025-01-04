@@ -10,21 +10,6 @@ const consoles = {
   PC: 2,
 };
 
-// Initialize localStorage
-if (!localStorage.getItem('consoleStatus')) {
-  const initialStatus = {};
-  Object.keys(consoles).forEach(type => {
-    for (let i = 1; i <= consoles[type]; i++) {
-      initialStatus[`${type} ${i}`] = 'Desocupada';
-    }
-  });
-  localStorage.setItem('consoleStatus', JSON.stringify(initialStatus));
-}
-
-if (!localStorage.getItem('reservations')) {
-  localStorage.setItem('reservations', JSON.stringify([]));
-}
-
 // Show/Hide Menu
 function toggleMenu() {
   menu.classList.toggle('hidden');
@@ -36,103 +21,46 @@ function showTab(id) {
   document.getElementById(id).classList.remove('hidden');
   if (id === 'status-publico') updatePublicStatus();
   if (id === 'status-privado') updatePrivateConsoles();
+  if (id === 'estadisticas') renderStats();
   menu.classList.add('hidden'); // Close the menu after selecting a tab
 }
 
-// Request Private Access
-function requestPrivateAccess() {
-  const password = prompt('Introduce la contraseña:');
-  if (password === 'admin') {
-    showTab('status-privado');
-  } else {
-    alert('Contraseña incorrecta.');
-  }
+// Notification
+function showNotification(message) {
+  const notification = document.createElement('div');
+  notification.textContent = message;
+  notification.style.position = 'fixed';
+  notification.style.bottom = '10px';
+  notification.style.right = '10px';
+  notification.style.background = '#444';
+  notification.style.color = 'white';
+  notification.style.padding = '10px';
+  notification.style.borderRadius = '5px';
+  document.body.appendChild(notification);
+  setTimeout(() => notification.remove(), 3000);
 }
 
-// Update Public Status
-function updatePublicStatus() {
-  const status = JSON.parse(localStorage.getItem('consoleStatus'));
-  publicStatus.innerHTML = Object.keys(status)
-    .map(
-      key =>
-        `<li style="color: ${
-          status[key] === 'Desocupada' ? 'green' : 'red'
-        }">${key}: ${status[key]}</li>`
-    )
-    .join('');
-}
+// Estadísticas
+function renderStats() {
+  const ctx = document.getElementById('stats-chart').getContext('2d');
+  const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
+  const counts = reservations.reduce((acc, r) => {
+    acc[r.console] = (acc[r.console] || 0) + 1;
+    return acc;
+  }, {});
 
-// Update Private Consoles
-function updatePrivateConsoles() {
-  const status = JSON.parse(localStorage.getItem('consoleStatus'));
-  privateConsoles.innerHTML = Object.keys(status)
-    .map(
-      key =>
-        `<div>${key}: 
-        <select onchange="changeStatus('${key}', this.value)">
-          <option value="Desocupada" ${
-            status[key] === 'Desocupada' ? 'selected' : ''
-          }>Desocupada</option>
-          <option value="Ocupada" ${
-            status[key] === 'Ocupada' ? 'selected' : ''
-          }>Ocupada</option>
-        </select>
-      </div>`
-    )
-    .join('');
-}
-
-// Change Console Status
-function changeStatus(key, value) {
-  const status = JSON.parse(localStorage.getItem('consoleStatus'));
-  status[key] = value;
-  localStorage.setItem('consoleStatus', JSON.stringify(status));
-  updatePublicStatus();
-}
-
-// Reservation Form Submission
-document.getElementById('reservation-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const name = document.getElementById('name').value;
-  const console = document.getElementById('console').value;
-  const time = document.getElementById('time').value;
-
-  const reservations = JSON.parse(localStorage.getItem('reservations'));
-  reservations.push({ name, console, time, date: new Date().toISOString() });
-  localStorage.setItem('reservations', JSON.stringify(reservations));
-
-  reservationConfirmation.textContent = 'Reserva enviada.';
-  setTimeout(() => (reservationConfirmation.textContent = ''), 3000);
-  updateReservations();
-});
-
-// Update Reservations
-function updateReservations() {
-  const reservations = JSON.parse(localStorage.getItem('reservations'));
-  const now = new Date();
-  const filteredReservations = reservations.filter(
-    r => now - new Date(r.date) < 7 * 24 * 60 * 60 * 1000
-  );
-  localStorage.setItem('reservations', JSON.stringify(filteredReservations));
-
-  reservationsList.innerHTML = filteredReservations
-    .map(
-      r =>
-        `<li>${r.name} - ${r.console} - ${r.time} 
-          <button onclick="deleteReservation('${r.date}')">Borrar</button>
-        </li>`
-    )
-    .join('');
-}
-
-// Delete Reservation
-function deleteReservation(date) {
-  const reservations = JSON.parse(localStorage.getItem('reservations'));
-  const updatedReservations = reservations.filter(r => r.date !== date);
-  localStorage.setItem('reservations', JSON.stringify(updatedReservations));
-  updateReservations();
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: Object.keys(counts),
+      datasets: [{
+        label: 'Reservas por consola',
+        data: Object.values(counts),
+        backgroundColor: ['#0066ff', '#ff6600', '#00ff00'],
+      }],
+    },
+  });
 }
 
 // Initialize
-updatePublicStatus();
-updateReservations();
+showTab('inicio');
