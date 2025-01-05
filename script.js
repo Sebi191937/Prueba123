@@ -112,5 +112,3 @@ function actualizarEstadoPublico() {
 
 // Iniciar la actualización del estado público al cargar la página
 document.addEventListener('DOMContentLoaded', actualizarEstadoPublico);
-
-</script>
