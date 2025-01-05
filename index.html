@@ -1,71 +1,68 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G Lab-Arcade Room</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <button id="menu-btn" onclick="toggleMenu()">☰</button>
-        <nav id="menu" class="hidden">
-            <ul>
-                <li><a href="#inicio" onclick="showSection('inicio')">Inicio</a></li>
-                <li><a href="#reservas" onclick="showSection('reservas')">Reservas</a></li>
-                <li><a href="#status-publico" onclick="showSection('status-publico')">Status Público</a></li>
-                <li><a href="#status-privado" onclick="showSection('status-privado')">Status Privado</a></li>
-                <button class="close" onclick="toggleMenu()">x</button>
-            </ul>
-        </nav>
-    </header>
+<html lang="en">
 
-    <main>
-        <section id="inicio">
-            <h1>Bienvenidos a G Lab-Arcade Room</h1>
-            <p>¡El lugar donde la diversión nunca termina!</p>
-        </section>
+  <head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Aereolinea</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <script src="js/vuelos.js"></script>
+  </head>
 
-        <section id="reservas" class="hidden">
-            <h2>Formulario de Reservas</h2>
-            <form id="form-reserva">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" required>
-
-                <label for="consola">Consola:</label>
-                <select id="consola">
-                    <option value="Xbox">Xbox</option>
-                    <option value="PlayStation">PlayStation</option>
-                    <option value="PC">PC</option>
-                </select>
-
-                <label for="hora">Hora de Reserva:</label>
-                <input type="datetime-local" id="hora" required>
-
-                <button type="submit">Reservar</button>
+  <body>
+     <section class="section-padding">
+      <div class="container">
+        <div class="row">
+          <h1 class="section-title">SISTEMA DE RESERVAS - AEREOLINEA</h1>
+        </div>
+        <div class="row">
+          <div id="menu1" class="col-xs-12 col-md-6 col-lg-4">
+            <div class="about-item">
+              <div class="about-text">
+                <h3><a>Consultar Vuelos</a></h3>
+                <p>Consulte los vuelos y horarios disponibles</p>
+                <a class="btn btn-common btn-rm" href="#" onclick="app.mostrarVuelos();">Consultar</a>
+              </div>
+            </div>
+          </div>
+          <div id="menu2" class="col-xs-12 col-md-6 col-lg-4">
+            <div class="about-item">
+              <div class="about-text">
+                <h3><a>Consultar Reservas</a></h3>
+                <p>Consulte sus reservas por número de cédular</p>
+                <input id="docConsulta" class="mb-20 form-control" name="cedula" placeholder="Ingresa tu número de cédula">
+                <a class="btn btn-common btn-rm" href="#" onclick="app.consultarReserva();">Consultar</a>
+              </div>
+            </div>
+          </div>
+          <div id="campodoc" style="display: none;">
+            <form action="javascript:void(0);" method="POST" id="reserva-edit">
+              <p id="datosvuelo"></p>
+              <input type="text" id="documento" placeholder="Cedula de Ciudadania">
+              <input type="submit" value="Reservar" />
             </form>
-        </section>
-
-        <section id="status-publico" class="hidden">
-            <h2>Status Público</h2>
-            <div id="status-consolas">
-                <!-- Las consolas se mostrarán aquí -->
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <table>
+                <tbody id="vuelos"></tbody>
+              </table>
             </div>
-        </section>
+          </div>
+        </div>
+        <br>
+        <a id="btnback" style="display: none;" href="#" class="btn btn-common btn-rm" onclick="app.Volver();">Volver</a>
+      </div>
+    </section>
 
-        <section id="status-privado" class="hidden">
-            <h2>Status Privado</h2>
-            <input type="password" id="password" placeholder="Ingresa la contraseña">
-            <button onclick="checkPassword()">Acceder</button>
-            <div id="panel-status" class="hidden">
-                <h3>Cambiar Estado de Consolas</h3>
-                <div id="consolas-status">
-                    <!-- Los selectores de consolas estarán aquí -->
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script src="scripts.js"></script>
-</body>
+    <div id="copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <p>© Desarrollado por <a href="http://fb.com/thersanbo" rel="nofollow">RFSB</a></p>  
+          </div>
+        </div>
+      </div>
+    </div>} 
+  </body>
 </html>
