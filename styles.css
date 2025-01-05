@@ -8,7 +8,7 @@ body {
 }
 
 header {
-    background-color: #222;
+    background-color: #660000; /* Cambié el color a rojo oscuro */
     padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -16,7 +16,7 @@ header {
 }
 
 #menu-btn {
-    background-color: #333;
+    background-color: #990000; /* Rojo más claro */
     color: #fff;
     border: none;
     padding: 10px;
@@ -38,6 +38,10 @@ nav ul li a {
     text-decoration: none;
 }
 
+nav ul li a:hover {
+    color: #ff6666; /* Rojo claro para el hover */
+}
+
 .hidden {
     display: none;
 }
@@ -48,7 +52,7 @@ section {
 }
 
 h1, h2 {
-    color: #00ff00;
+    color: #ff3333; /* Rojo brillante */
 }
 
 /* Estilos para el formulario */
@@ -61,11 +65,11 @@ form input, form select, form button {
 }
 
 form button {
-    background-color: #00ff00;
+    background-color: #ff3333; /* Rojo brillante */
 }
 
 form button:hover {
-    background-color: #00cc00;
+    background-color: #ff1a1a; /* Rojo más brillante para hover */
 }
 
 /* Estilo para los estados de las consolas */
