@@ -1,185 +1,83 @@
-/* Reset de estilos predeterminados */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Cuerpo de la página */
+/* Estilos generales */
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(45deg, #2e3d4e, #1a1a1a);
-    color: white;
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: #fff;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 }
 
 header {
-    background: #111;
-    padding: 15px;
+    background-color: #222;
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 100;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 #menu-btn {
-    background-color: #444;
-    color: white;
-    font-size: 25px;
+    background-color: #333;
+    color: #fff;
     border: none;
-    cursor: pointer;
     padding: 10px;
-}
-
-#menu-btn:hover {
-    background-color: #888;
-}
-
-/* Menú Lateral */
-nav {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #222;
-    width: 250px;
-    height: 100%;
-    box-shadow: 3px 0 5px rgba(0, 0, 0, 0.5);
+    font-size: 20px;
 }
 
 nav ul {
-    list-style: none;
-    padding: 20px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 nav ul li {
-    margin: 20px 0;
-    text-align: center;
+    margin: 10px 0;
 }
 
 nav ul li a {
-    color: white;
+    color: #fff;
     text-decoration: none;
-    font-size: 20px;
-    padding: 10px;
-    display: block;
-    transition: background-color 0.3s ease;
 }
 
-nav ul li a:hover {
-    background-color: #444;
-}
-
-button.close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    color: white;
-    font-size: 25px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-/* Secciones */
-main {
-    margin-top: 60px;
-    padding: 20px;
-    flex: 1;
-}
-
-section {
-    display: none;
-}
-
-section h1, section h2 {
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#status-consolas div, #consolas-status div {
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-button {
-    background-color: #444;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 18px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #666;
-}
-
-/* Estilo para formularios */
-form input, form select, form button {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 16px;
-    border-radius: 5px;
-}
-
-form select {
-    background-color: #333;
-    color: white;
-}
-
-form input[type="datetime-local"] {
-    background-color: #333;
-    color: white;
-}
-
-/* Estados de Consolas */
-.green {
-    color: #4CAF50;
-}
-
-.red {
-    color: #F44336;
-}
-
-/* Animación de transición */
 .hidden {
     display: none;
 }
 
-/* Estilo para botones de navegación */
-nav ul li a, button {
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
+/* Estilo de las secciones */
+section {
+    padding: 20px;
 }
 
-/* Responsividad */
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+h1, h2 {
+    color: #00ff00;
+}
 
-    #menu-btn {
-        font-size: 30px;
-    }
+/* Estilos para el formulario */
+form input, form select, form button {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #333;
+    border: 1px solid #555;
+    color: #fff;
+}
 
-    nav {
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
+form button {
+    background-color: #00ff00;
+}
+
+form button:hover {
+    background-color: #00cc00;
+}
+
+/* Estilo para los estados de las consolas */
+.estado-consola {
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.desocupada {
+    color: #00ff00;
+}
+
+.ocupada {
+    color: #ff0000;
 }
