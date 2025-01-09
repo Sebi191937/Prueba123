@@ -1,114 +1,166 @@
-// Menú desplegable
-function toggleMenu() {
-    const menu = document.getElementById('nav-menu');
-    menu.classList.toggle('hidden');
-}
+// Variables globales
+const consoles = {
+    "Xbox Series 1": Array(1).fill('Desocupada'),
+    "Xbox Series 2": Array(1).fill('Desocupada'),
+    "Xbox Series 3": Array(1).fill('Desocupada'),
+    "PlayStation 5 1": Array(1).fill('Desocupada'),
+    "PlayStation 5 2": Array(1).fill('Desocupada'),
+    "PlayStation 5 3": Array(1).fill('Desocupada'),
+    "Xbox Series X TV": Array(1).fill('Desocupada'),
+    "PlayStation 5 TV": Array(1).fill('Desocupada'),
+    "PC 2060": Array(1).fill('Desocupada'),
+    "PC 4060Ti": Array(1).fill('Desocupada')
+};
 
-// Mostrar secciones
-function showSection(id) {
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-        if (section.id === id) {
-            section.classList.remove('hidden');
-        } else {
-            section.classList.add('hidden');
-        }
+let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+
+// Función para eliminar reservas con más de una semana de antigüedad
+function cleanOldReservations() {
+    const oneWeekInMillis = 7 * 24 * 60 * 60 * 1000; // Una semana en milisegundos
+    const now = new Date();
+    reservations = reservations.filter(reservation => {
+        const reservationDate = new Date(reservation.date);
+        return now - reservationDate < oneWeekInMillis;
     });
+    localStorage.setItem('reservations', JSON.stringify(reservations));
 }
 
-// Sistema de Reservas
-const formReserva = document.getElementById('form-reserva');
-const mensajeReserva = document.getElementById('mensaje-reserva');
-formReserva.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const nombre = document.getElementById('nombre').value;
+// Funciones de interacción
+function toggleMenu() {
+    const menu = document.getElementById('menu');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
+function showSection(section) {
+    document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+    document.getElementById(section).classList.remove('hidden');
+    toggleMenu(); // Cierra el menú al cambiar de sección
+}
+
+function submitReservation(event) {
+    event.preventDefault();
+    const name = document.getElementById('name').value;
     const consola = document.getElementById('consola').value;
     const hora = document.getElementById('hora').value;
-    
-    if (nombre && consola && hora) {
-        const reserva = { nombre, consola, hora, fecha: new Date() };
-        let reservas = JSON.parse(localStorage.getItem('reservas')) || [];
-        reservas.push(reserva);
-        localStorage.setItem('reservas', JSON.stringify(reservas));
-        mensajeReserva.innerText = "Reserva realizada";
-        actualizarReservas();
-    }
-});
 
-// Actualizar lista de reservas
-function actualizarReservas() {
-    const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
-    const listaReservas = document.getElementById('reservas-lista');
-    listaReservas.innerHTML = '';
-    
-    reservas.forEach((reserva, index) => {
-        const reservaItem = document.createElement('div');
-        reservaItem.innerHTML = `<p>${reserva.nombre} - ${reserva.consola} - ${reserva.hora} <button onclick="eliminarReserva(${index})">Eliminar</button></p>`;
-        listaReservas.appendChild(reservaItem);
+    // Verificar si la consola ya está reservada en ese horario
+    const conflict = reservations.some(reservation =>
+        reservation.consola === consola && reservation.hora === hora
+    );
+
+    if (conflict) {
+        document.getElementById('reservation-message').textContent = 
+            'Error: Esta consola ya está reservada para este horario.';
+        return;
+    }
+
+    const reservation = { name, consola, hora, date: new Date() };
+    reservations.push(reservation);
+    localStorage.setItem('reservations', JSON.stringify(reservations));
+
+    // Actualizar estado de la consola
+    const consoleIndex = consoles[consola].findIndex(status => status === 'Desocupada');
+    if (consoleIndex !== -1) {
+        consoles[consola][consoleIndex] = `Ocupada (${hora})`;
+        localStorage.setItem('consoles', JSON.stringify(consoles));
+    }
+
+    displayReservations();
+    updatePublicStatus();
+    document.getElementById('reservation-message').textContent = 'Reserva realizada con éxito.';
+}
+
+function displayReservations() {
+    const list = document.getElementById('reservations-list');
+    list.innerHTML = '';
+    reservations.forEach(reservation => {
+        const div = document.createElement('div');
+        div.textContent = `${reservation.name} - ${reservation.consola} - ${reservation.hora}`;
+        list.appendChild(div);
     });
 }
 
-// Eliminar una reserva
-function eliminarReserva(index) {
-    let reservas = JSON.parse(localStorage.getItem('reservas')) || [];
-    reservas.splice(index, 1);
-    localStorage.setItem('reservas', JSON.stringify(reservas));
-    actualizarReservas();
-}
-
-// Acceso a Status Privado
-function verificarContraseña() {
+function checkPassword() {
     const password = document.getElementById('password').value;
-    const contrasenaCorrecta = "admin123"; // Cambia esto por la contraseña real
-    if (password === contrasenaCorrecta) {
-        document.getElementById('estado-consolas').innerHTML = obtenerEstadoConsolasHTML();
-        document.getElementById('reservas-lista').classList.remove('hidden');
+    const correctPassword = 'admin'; // Cambia esto a la contraseña real
+    if (password === correctPassword) {
+        document.getElementById('admin-section').classList.remove('hidden');
+        loadConsoleStatus();
     } else {
-        alert("Contraseña incorrecta");
+        alert('Contraseña incorrecta');
     }
 }
 
-// Generar HTML para estado de consolas
-function obtenerEstadoConsolasHTML() {
-    const consolas = ['Xbox 1', 'Xbox 2', 'Xbox 3', 'Xbox 4', 'PlayStation 1', 'PlayStation 2', 'PlayStation 3', 'PlayStation 4', 'PC 1', 'PC 2'];
-    let html = '';
-    consolas.forEach((consola) => {
-        html += `
-            <div class="estado-consola">
-                <label>${consola}</label>
-                <select onchange="actualizarEstadoConsola('${consola}', this)">
-                    <option value="desocupada">Desocupada</option>
-                    <option value="ocupada">Ocupada</option>
-                </select>
-            </div>
-        `;
-    });
-    return html;
-}
-
-// Actualizar estado de consola
-function actualizarEstadoConsola(consola, selector) {
-    const estado = selector.value;
-    let estados = JSON.parse(localStorage.getItem('estados-consolas')) || {};
-    estados[consola] = estado;
-    localStorage.setItem('estados-consolas', JSON.stringify(estados));
-    actualizarEstadoPublico();
-}
-
-// Actualizar estado público
-function actualizarEstadoPublico() {
-    const estados = JSON.parse(localStorage.getItem('estados-consolas')) || {};
-    const consolasPublico = document.getElementById('consolas-publico');
-    consolasPublico.innerHTML = '';
-    const consolas = ['Xbox 1', 'Xbox 2', 'Xbox 3', 'Xbox 4', 'PlayStation 1', 'PlayStation 2', 'PlayStation 3', 'PlayStation 4', 'PC 1', 'PC 2'];
-    
-    consolas.forEach(consola => {
-        const estado = estados[consola] || 'desocupada';
-        consolasPublico.innerHTML += `
-            <p class="${estado}">${consola} - ${estado.charAt(0).toUpperCase() + estado.slice(1)}</p>
-        `;
+function loadConsoleStatus() {
+    const consoleStatusDiv = document.getElementById('console-status');
+    consoleStatusDiv.innerHTML = '';
+    ['Xbox', 'PlayStation', 'PC'].forEach(consoleType => {
+        consoles[consoleType].forEach((status, index) => {
+            const select = document.createElement('select');
+            select.innerHTML = `<option value="Desocupada" ${status === 'Desocupada' ? 'selected' : ''}>Desocupada</option>
+                                <option value="Ocupada" ${status.startsWith('Ocupada') ? 'selected' : ''}>Ocupada</option>`;
+            select.addEventListener('change', (e) => updateConsoleStatus(consoleType, index, e.target.value));
+            const label = document.createElement('label');
+            label.textContent = `${consoleType} ${index + 1}: `;
+            consoleStatusDiv.appendChild(label);
+            consoleStatusDiv.appendChild(select);
+        });
     });
 }
 
-// Iniciar la actualización del estado público al cargar la página
-document.addEventListener('DOMContentLoaded', actualizarEstadoPublico);
+function updateConsoleStatus(consoleType, index, status) {
+    consoles[consoleType][index] = status;
+    localStorage.setItem('consoles', JSON.stringify(consoles));
+    updatePublicStatus();
+}
+
+function updatePublicStatus() {
+    const statusList = document.getElementById('status-list');
+    statusList.innerHTML = '';
+    Object.keys(consoles).forEach(consoleType => {
+        consoles[consoleType].forEach((status, index) => {
+            const div = document.createElement('div');
+            div.textContent = `${consoleType} ${index + 1}: ${status}`;
+            
+            // Cambiar la clase en función del estado
+            if (status === 'Desocupada') {
+                div.className = 'status desocupada'; // Estado verde
+            } else if (status === 'Ocupada') {
+                div.className = 'status ocupada'; // Estado rojo
+            }
+
+            statusList.appendChild(div);
+        });
+    });
+}
+
+
+function loadConsoleStatus() {
+    const consoleStatusDiv = document.getElementById('console-status');
+    consoleStatusDiv.innerHTML = '';
+    Object.keys(consoles).forEach(consoleType => {
+        consoles[consoleType].forEach((status, index) => {
+            const select = document.createElement('select');
+            select.innerHTML = `<option value="Desocupada" ${status === 'Desocupada' ? 'selected' : ''}>Desocupada</option>
+                                <option value="Ocupada" ${status.startsWith('Ocupada') ? 'selected' : ''}>Ocupada</option>`;
+            select.addEventListener('change', (e) => updateConsoleStatus(consoleType, index, e.target.value));
+            const label = document.createElement('label');
+            label.textContent = `${consoleType} ${index + 1}: `;
+            consoleStatusDiv.appendChild(label);
+            consoleStatusDiv.appendChild(select);
+        });
+    });
+}
+
+function updateConsoleStatus(consoleType, index, status) {
+    consoles[consoleType][index] = status;
+    localStorage.setItem('consoles', JSON.stringify(consoles));
+    updatePublicStatus();
+}
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', () => {
+    cleanOldReservations(); // Limpiar reservas antiguas al cargar la página
+    updatePublicStatus();
+    displayReservations();
+});
