@@ -1,87 +1,170 @@
-/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
-    background-color: #111;
-    color: #fff;
     margin: 0;
+    padding: 0;
+    background-color: #222;
+    color: #fff;
+}
+
+#menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px;
+    background-color: #333;
+    padding: 20px;
+    display: none;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+}
+
+#menu ul {
+    list-style: none;
     padding: 0;
 }
 
-header {
-    background-color: #660000; /* Cambié el color a rojo oscuro */
+#menu ul li {
     padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-#menu-btn {
-    background-color: #990000; /* Rojo más claro */
-    color: #fff;
-    border: none;
-    padding: 10px;
-    font-size: 20px;
-}
-
-nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-nav ul li {
-    margin: 10px 0;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-}
-
-nav ul li a:hover {
-    color: #ff6666; /* Rojo claro para el hover */
+#menu ul li:hover {
+    background-color: #900;
+    box-shadow: 2px 2px 6px rgba(255, 0, 0, 0.6);
 }
 
 .hidden {
     display: none;
 }
 
-/* Estilo de las secciones */
-section {
+#menu-toggle {
+    font-size: 30px;
+    cursor: pointer;
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
+
+#menu-toggle:hover {
+    transform: rotate(90deg);
+}
+
+button {
+    background-color: #dc3545;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background-color: #c82333;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+input, select {
+    margin: 10px 0;
+    padding: 8px;
+    width: 100%;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 5px rgba(220, 53, 69, 0.6);
+}
+
+.section {
     padding: 20px;
 }
 
 h1, h2 {
-    color: #ff3333; /* Rojo brillante */
-}
-
-/* Estilos para el formulario */
-form input, form select, form button {
-    padding: 10px;
-    margin: 10px 0;
-    background-color: #333;
-    border: 1px solid #555;
-    color: #fff;
-}
-
-form button {
-    background-color: #ff3333; /* Rojo brillante */
-}
-
-form button:hover {
-    background-color: #ff1a1a; /* Rojo más brillante para hover */
-}
-
-/* Estilo para los estados de las consolas */
-.estado-consola {
-    margin: 10px 0;
-    padding: 10px;
-}
-
-.desocupada {
-    color: #00ff00;
-}
-
-.ocupada {
     color: #ff0000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#status-list div {
+    margin: 10px;
+}
+
+.status {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.status:hover {
+    transform: scale(1.05);
+}
+
+.status.desocupada {
+    background-color: #28a745;
+    color: white;
+}
+
+.status.ocupada {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Sección de precios */
+#precios {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.imagenes-precios {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.precio-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+    .imagenes-precios {
+        max-width: 100%;
+        gap: 10px;
+    }
+
+    .precio-img {
+        width: 120px;
+        height: 120px;
+    }
+
+    #menu ul {
+        padding: 0;
+    }
+
+    #reservas input,
+    #reservas select,
+    #reservas button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .precio-img {
+        width: 100px;
+        height: 100px;
+    }
+
+    #menu-toggle {
+        font-size: 25px;
+    }
 }
