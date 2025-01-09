@@ -1,70 +1,100 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G Lab Arcade Room</title>
+    <title>Reserva de Consolas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
+    <div id="menu-toggle" onclick="toggleMenu()">☰</div>
+    <div id="menu" class="hidden">
+        <button class="close" onclick="toggleMenu()">x</button>
+        <ul>
+            <li onclick="showSection('home')">Inicio</li>
+            <li onclick="showSection('reservas')">Reservas</li>
+            <li onclick="showSection('statusPublico')">Status Público</li>
+            <li onclick="showSection('statusPrivado')">Status Privado</li>
+            <li onclick="showSection('ubicacion')">Ubicación</li>
+            <li onclick="showSection('precios')">Precios</li> <!-- Nueva pestaña de precios -->
+        </ul>
+    </div>
 
-    <!-- Menú desplegable -->
-    <header id="menu">
-        <button id="menu-btn" onclick="toggleMenu()">☰</button>
-        <nav id="nav-menu" class="hidden">
-            <ul>
-                <li><a href="#inicio" onclick="showSection('inicio')">Inicio</a></li>
-                <li><a href="#reservas" onclick="showSection('reservas')">Reservas</a></li>
-                <li><a href="#status-publico" onclick="showSection('status-publico')">Status Público</a></li>
-                <li><a href="#status-privado" onclick="showSection('status-privado')">Status Privado</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div id="home" class="section">
+        <h1>Bienvenidos a G lab-arcade room web</h1>
+        <p>¡Jugar nunca se había sentido tan bien!</p>
+        <h2>Redes Sociales</h2>
+        <button onclick="window.location.href='https://www.instagram.com/g.lab_mx?igsh=MXFjaXl1Ym14b3Ziaw=='">Instagram</button>
+        <button onclick="window.location.href='https://www.tiktok.com/@g.lab_mx?_t=ZM-8soz5kQza7C&_r=1'">TikTok</button>
+    </div>
 
-    <!-- Contenido de las secciones -->
-    <section id="inicio">
-        <h1>Bienvenido a G Lab Arcade Room</h1>
-        <p>Descripción del lugar y ubicación.</p>
-    </section>
+    <div id="ubicacion" class="section hidden">
+        <h2>Ubicación del G LAB Arcade Room</h2>
+        <p>Visítanos en la siguiente dirección:</p>
+        <p><strong>Dirección:</strong> G LAB Arcade Room, Calle Ficticia 123, Ciudad, Estado</p>
+        <p><strong>Ubicación en Google Maps:</strong> <a href="https://www.google.com.mx/maps/place/G+LAB+Arcade+Room/@19.4498013,-99.1875267,17z/data=!3m1!4b1!4m6!3m5!1s0x85d1f97a8c053d4b:0x90cea12c8a66a96a!8m2!3d19.4497963!4d-99.1849518!16s%2Fg%2F11y4yr2_8c?entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D" target="_blank">Ver en Google Maps</a></p>
+        <img src="https://maps.googleapis.com/maps/api/staticmap?center=19.4498013,-99.1875267&zoom=17&size=400x300&markers=color:red|19.4498013,-99.1875267" alt="G LAB Arcade Room">
+    </div>
 
-    <!-- Formulario de Reservas -->
-    <section id="reservas" class="hidden">
+    <div id="reservas" class="section hidden">
         <h2>Formulario de Reservas</h2>
-        <form id="form-reserva">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" required><br><br>
+        <form id="reservation-form" onsubmit="submitReservation(event)">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" required>
             <label for="consola">Consola:</label>
             <select id="consola" required>
-                <option value="xbox">Xbox</option>
-                <option value="playstation">PlayStation</option>
-                <option value="pc">PC</option>
-            </select><br><br>
-            <label for="hora">Hora de la reserva:</label>
-            <input type="time" id="hora" required><br><br>
+                <option value="Xbox Series ">Xbox Series 1</option>
+                <option value="Xbox Series ">Xbox Series 2</option>
+                <option value="Xbox Series ">Xbox Series 3</option>
+                <option value="PlayStation 5 ">PlayStation 5 1</option>
+                <option value="PlayStation 5 ">PlayStation 5 2</option>
+                <option value="PlayStation 5 ">PlayStation 5 3</option>
+                <option value="Xbox Series X TV">Xbox Series X TV</option>
+                <option value="PlayStation 5 TV">PlayStation 5 TV</option>
+                <option value="PC 2060">PC 2060</option>
+                <option value="PC 4060Ti">PC 4060Ti</option>
+            </select>
+            <label for="hora">Hora:</label>
+            <input type="time" id="hora" required>
             <button type="submit">Reservar</button>
         </form>
-        <p id="mensaje-reserva"></p>
-    </section>
+        <div id="reservation-message"></div>
+    </div>
 
-    <!-- Status Público -->
-    <section id="status-publico" class="hidden">
-        <h2>Status Público de Consolas</h2>
-        <div id="consolas-publico"></div>
-    </section>
+    <div id="statusPublico" class="section hidden">
+        <h2>Status Público</h2>
+        <div id="status-list">
+            <!-- Consolas mostrarán estado aquí -->
+        </div>
+    </div>
 
-    <!-- Status Privado -->
-    <section id="status-privado" class="hidden">
+    <div id="statusPrivado" class="section hidden">
         <h2>Status Privado</h2>
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password">
-        <button onclick="verificarContraseña()">Acceder</button>
-        <div id="estado-consolas"></div>
-        <div id="reservas-lista"></div>
-    </section>
+        <div>
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" required>
+            <button onclick="checkPassword()">Acceder</button>
+        </div>
+        <div id="admin-section" class="hidden">
+            <div id="console-status">
+                <!-- Consolas con selectores aquí -->
+            </div>
+            <div id="reservations-list">
+                <!-- Lista de reservas -->
+            </div>
+        </div>
+    </div>
 
-    <script src="scripts.js"></script>
+    <div id="precios" class="section hidden">
+        <h2>Precios</h2>
+        <div class="imagenes-precios">
+            <img src="precio1.jpg" alt="Precio 1" class="precio-img">
+            <img src="precio2.jpg" alt="Precio 2" class="precio-img">
+            <img src="precio3.jpg" alt="Precio 3" class="precio-img">
+            <img src="precio4.jpg" alt="Precio 4" class="precio-img">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
-
 </html>
