@@ -121,20 +121,19 @@ h1, h2 {
 }
 
 .imagenes-precios {
-    display: flex;
-    justify-content: center;
+    display: block;  /* Cambiado para mostrar las imágenes como lista */
     gap: 20px;
-    flex-wrap: wrap;
-    max-width: 80%;
     margin: 0 auto;
+    text-align: center;
 }
 
 .precio-img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
+    width: 200px;  /* Aumentamos el tamaño del contenedor de la imagen */
+    height: 200px;
+    object-fit: contain;  /* Asegura que la imagen se ajuste sin recortarse */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;  /* Separación entre las imágenes */
 }
 
 @media (max-width: 768px) {
@@ -144,8 +143,8 @@ h1, h2 {
     }
 
     .precio-img {
-        width: 120px;
-        height: 120px;
+        width: 150px;  /* Ajustamos el tamaño para pantallas más pequeñas */
+        height: 150px;
     }
 
     #menu ul {
@@ -161,7 +160,7 @@ h1, h2 {
 
 @media (max-width: 480px) {
     .precio-img {
-        width: 100px;
+        width: 100px;  /* Ajustamos aún más el tamaño para dispositivos móviles */
         height: 100px;
     }
 
